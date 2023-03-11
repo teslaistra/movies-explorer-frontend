@@ -1,0 +1,35 @@
+.navigation__list {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  gap: 16px;
+}
+
+.navigation__link {
+  text-decoration: none;
+  color: white;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.navigation__link:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 620px) {
+  .navigation {
+    display: none;
+  }
+
+    
+}

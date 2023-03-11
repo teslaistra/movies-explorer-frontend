@@ -1,0 +1,131 @@
+.promo {
+  background-color: #073042;
+  display: flex;
+  flex-direction: column;
+}
+
+.promo__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: auto;
+  max-width: 1140px;
+  width: 100%;
+}
+
+.promo__content {
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+  margin-right: 190px;
+}
+
+.promo__title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  margin: 0;
+  color: #ffffff;
+  max-width: 640px;
+  margin-top: 75px;
+}
+
+.promo__subtitle {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  opacity: 0.5;
+  max-width: 310px;
+  margin-top: 36px;
+}
+
+.promo__image {
+  max-width: 310px;
+}
+
+.promo__button {
+  width: 130px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  height: 36px;
+  background-color: transparent;
+  color: #ffffff;
+  margin-top: 146px;
+  margin-bottom: 75px;
+  transition: background-color 0.8s ease-in-out;
+}
+
+.promo__button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.promo__button-text {
+  color: #ffffff;
+  opacity: 1;
+  margin: 0;
+}
+
+@media (max-width: 1280px) {
+  .promo__container {
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-top: 140px;
+  }
+
+  .promo__content {
+    margin: auto;
+  }
+
+  .promo__title {
+    text-align: center;
+    margin-top: 48px;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+  }
+
+  .promo__subtitle {
+    margin: auto;
+    text-align: center;
+    margin-top: 22px;
+    max-width: 260px;
+  }
+
+  .promo__button {
+    margin: auto;
+    margin-top: 92px;
+    margin-bottom: 76px;
+  }
+}
+
+@media (max-width: 530px) {
+  .promo__image {
+    max-width: 210px;
+  }
+
+  .promo__title {
+    font-size: 30px;
+    line-height: 38px;
+    letter-spacing: -0.04em;
+    margin-top: 44px;
+  }
+
+  .promo__subtitle {
+    margin-top: 24px;
+  }
+
+  .promo__button {
+    margin-top: 92px;
+    margin-bottom: 30px;
+  }
+
+  .promo__container {
+    margin-top: 70px;
+  }
+}
