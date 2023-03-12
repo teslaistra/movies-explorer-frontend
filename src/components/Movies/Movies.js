@@ -9,11 +9,13 @@ import { cards } from "../../utils/constants";
 
 function Movies() {
   return (
-    <div className="page">
-      <Header loggedIn={true} />
-      <SearchForm />
-      <MoviesCardList cards={cards} />
-      {cards.length === 0 ? null : <MoviesMore />}
+    <div className="movies">
+      <div className="movies__container">
+        <Header loggedIn={true} />
+        <SearchForm />
+        <MoviesCardList cards={cards} />
+        {cards.length === 0 ? null : <MoviesMore />}
+      </div>
       <Footer />
     </div>
   );

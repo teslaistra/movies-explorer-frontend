@@ -7,7 +7,7 @@ import ProfileForm from "../ProfileForm/ProfileForm";
 
 function Profile() {
   return (
-    <div className="page">
+    <div className="profile">
       <Header loggedIn={true} />
       <ProfileForm />
       <Footer />

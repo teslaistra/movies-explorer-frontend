@@ -11,11 +11,14 @@ function SavedMovies() {
   const likedCards = cards.filter((card) => card.isLiked === true);
 
   return (
-    <div className="page">
-      <Header loggedIn={true} />
-      <SearchForm />
-      <MoviesCardList cards={likedCards} />
-      <MoviesMore />
+    <div className="saved-movies">
+      <div className="saved-movies__container">
+        <Header loggedIn={true} />
+        <SearchForm />
+        <MoviesCardList cards={likedCards} />
+        <MoviesMore />
+      </div>
+
       <Footer />
     </div>
   );

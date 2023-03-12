@@ -69,6 +69,7 @@
   color: #ffffff;
   opacity: 1;
   margin: 0;
+  text-decoration: none;
 }
 
 @media (max-width: 1280px) {

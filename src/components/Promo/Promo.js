@@ -1,6 +1,7 @@
 import React from "react";
 import "./Promo.css";
 import headerLogo from "../../images/promo-logo.svg";
+import { Link } from "react-router-dom";
 
 function Promo() {
   return (
@@ -14,7 +15,7 @@ function Promo() {
             Листайте ниже, чтобы узнать больше про этот проект и его создателя.
           </div>
           <button className="promo__button">
-            <p className="promo__button-text">Узнать больше</p>
+            <a href='#about-project' className="promo__button-text">Узнать больше</a>
           </button>
         </div>
 

@@ -3,7 +3,7 @@ import "./AboutProject.css";
 
 function AboutProject() {
   return (
-    <section className="about-project">
+    <section className="about-project" id="about-project">
       <div className="about-project__container">
         <h2 className="about-project__title">О проекте</h2>
         <div className="about-project__content">
@@ -27,14 +27,14 @@ function AboutProject() {
           </div>
         </div>
         <div className="about-project__progress-container">
-          <div className="about-project__progress-bar_color_green">
-            <p className="about-project__text_colour_black">1 неделя</p>
+          <div className="about-project__progress-bar about-project__progress-bar_color_green">
+            <p className="about-project__text about-project__text_colour_black">1 неделя</p>
           </div>
           <p className="about-project__description about-project__description-title-back">
             Back-end
           </p>
-          <div className="about-project__progress-bar_color_grey">
-            <p className="about-project__text_colour_white">4 недели</p>
+          <div className="about-project__progress-bar about-project__progress-bar_color_grey">
+            <p className="about-project__text about-project__text_colour_white">4 недели</p>
           </div>
           <p className="about-project__description about-project__description-title-front">
             Front-end
