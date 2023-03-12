@@ -1,0 +1,49 @@
+.filter {
+  display: flex;
+}
+
+.filter__button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background-color: #ebebeb;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: justify-content 0.4s ease-in-out;
+  transition: background-color 0.4s ease-in-out;
+}
+
+.filter__button_active {
+  background-color: #3ddc84;
+  justify-content: flex-end;
+}
+
+.filter__button-cursor {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin: 2px;
+  background-color: #f9f9f9;
+}
+
+.filter__button_active .filter__button-cursor {
+  background-color: #ffffff;
+}
+
+.filter__title {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  margin-left: 14px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .filter {
+    position: absolute;
+    bottom: -60px;
+  }
+}

@@ -1,0 +1,145 @@
+.register {
+  width: 100%;
+}
+
+.register__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 396px;
+  margin: 0 auto;
+  margin-top: 70px;
+}
+
+.register__title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width: 100%;
+  text-align: left;
+}
+
+.register__logo {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+}
+
+.register__form {
+  width: 100%;
+}
+
+.register__input {
+  width: 100%;
+  height: 17px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  background-color: #202020;
+  border: none;
+  padding: 0;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  border-bottom: #424242 1px solid;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+
+.register__input::placeholder {
+  color: #8b8b8b;
+}
+
+.register__input:focus {
+  outline: none;
+  background-color: #202020;
+}
+
+.register__label {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #8b8b8b;
+}
+
+.register__button {
+  width: 100%;
+  height: 45px;
+  background: #4285f4;
+  border-radius: 3px;
+  border: none;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin-top: 134px;
+}
+
+.register__button:hover {
+  background-color: #424242;
+}
+
+.register__button:active {
+  background-color: #424242;
+}
+
+.register__link {
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  font-weight: 400;
+
+  text-align: center;
+
+  color: #4285f4;
+  margin: 0;
+  text-decoration: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.register__link:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.register__signin {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.register__text {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  margin-right: 6px;
+
+  color: #8b8b8b;
+}
+
+.register__error {
+  display: none;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+
+  color: #ee3465;
+  margin-top: 6px;
+}
+
+.register__error_visible {
+  display: block;
+}
+
+.register__input-error {
+  color: #ee3465;
+}
