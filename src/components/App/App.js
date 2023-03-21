@@ -215,7 +215,7 @@ function setNumberOfMoviesFromSizeOfScreen() {
       <div className="page">
         <div className="page__content">
           <Switch>
-            <ProtectedRoute exact path="/" component={Main} loggedIn={loggedIn} />
+            <Route exact path="/" component={Main} loggedIn={loggedIn} />
               <ProtectedRoute exact path="/movies" component={Movies} onlySaved={false} onLike={handleLikeClick} onDisLike={handleDeleteMovie} numberOfMovies={numberOfMovies} loggedIn={loggedIn} moreFilms={moreFilms} />
               <ProtectedRoute exact path="/saved-movies" component={SavedMovies} onlySaved={true} onLike={handleLikeClick} onDisLike={handleDeleteMovie} numberOfMovies={numberOfMovies} loggedIn={loggedIn} />
             <ProtectedRoute exact path="/profile" component={Profile} loggedIn={loggedIn} onEditProfile={handleEditProfile} handleSignout={handleSignout}/>
