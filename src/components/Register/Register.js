@@ -1,9 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
+import { useHistory } from "react-router-dom";
 import Logo from "../../images/logo.svg";
 
-function Register() {
+function Register({handleRegister}) {
+
+  const history = useHistory();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const name = e.target.name.value;
+
+    handleRegister(email, password, name);
+  }
+
+  React.useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      history.push("/movies");
+    }
+  }, []);
+  
+
+
   return (
     <div className="register">
       <div className="register__container">
@@ -11,7 +32,7 @@ function Register() {
           <img className="register__logo-image" src={Logo} alt="Логотип" />
         </Link>
         <h1 className="register__title">Добро пожаловать!</h1>
-        <form className="register__form">
+        <form className="register__form" onSubmit={handleSubmit}>
           <div className="register__input-container">
             <label className="register__label">Имя</label>
             <input

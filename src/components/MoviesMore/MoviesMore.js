@@ -5,7 +5,7 @@ function MoviesMore({ moreFilms }) {
   return (
     <section className="movies-more">
       <div className="movies-more__container">
-        <button className="movies-more__button">Ещё</button>
+        <button className="movies-more__button" onClick={moreFilms}>Ещё</button>
       </div>
     </section>
   );
