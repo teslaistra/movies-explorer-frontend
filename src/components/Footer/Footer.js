@@ -17,7 +17,7 @@ function Footer() {
               </a>
             </li>
             <li className="footer__list-item">
-              <a className="footer__link" href=" ">
+              <a className="footer__link" href="https://github.com/teslaistra">
                 Github
               </a>
             </li>

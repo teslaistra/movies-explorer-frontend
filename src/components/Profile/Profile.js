@@ -5,11 +5,11 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import ProfileForm from "../ProfileForm/ProfileForm";
 
-function Profile() {
+function Profile({ onEditProfile, handleSignout }) {
   return (
     <div className="profile">
       <Header loggedIn={true} />
-      <ProfileForm />
+      <ProfileForm onEditProfile={onEditProfile} handleSignout={handleSignout}/>
       <Footer />
     </div>
   );
