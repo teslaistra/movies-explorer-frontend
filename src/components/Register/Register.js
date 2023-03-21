@@ -4,7 +4,7 @@ import "./Register.css";
 import { useHistory } from "react-router-dom";
 import Logo from "../../images/logo.svg";
 
-function Register(handleRegister) {
+function Register({handleRegister}) {
 
   const history = useHistory();
 

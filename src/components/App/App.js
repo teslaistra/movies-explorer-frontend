@@ -55,7 +55,6 @@ function setNumberOfMoviesFromSizeOfScreen() {
   const history = useHistory();
 
   useEffect(() => {
-    setIsLoading(true);
     if (loggedIn) {
       moviesApi.getMovies().then((res) => {
         if (res) {
