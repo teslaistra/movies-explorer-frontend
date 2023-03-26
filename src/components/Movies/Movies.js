@@ -20,7 +20,7 @@ function Movies({ moreFilms, numberOfMovies, onLike, onDisLike, onlySaved }) {
     JSON.parse(localStorage.getItem("foundFilms")) || []
   );
   const [filteredMoviesSearch, setFilteredMoviesSaved] = React.useState(
-    (JSON.parse(localStorage.getItem("foundFilmsSaved"))).filter((movie) => {
+    (JSON.parse(localStorage.getItem("foundFilmsSaved")) || []).filter((movie) => {
       return savedMovies.some((savedMovie) => {
         return savedMovie.movieId === movie.id;
       });
