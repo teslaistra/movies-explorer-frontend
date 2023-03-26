@@ -14,6 +14,7 @@ function Register({handleRegister}) {
     const password = e.target.password.value;
     const name = e.target.name.value;
 
+
     handleRegister(email, password, name);
   }
 
@@ -22,7 +23,99 @@ function Register({handleRegister}) {
       history.push("/movies");
     }
   }, []);
+
+  function handleChangeName(e) {
+    if (validateName(e.target.value)) {
+      setErrors({ ...errors, name: "" });
+    } else {  
+      setErrors({ ...errors, name: "Имя должно состоять только из букв" });
+    }
+
+    setData({ ...data, name: e.target.value });
+  }
+
+  function handleChangeEmail(e) {
+
+    if (validateEmail(e.target.value)) {
+      setErrors({ ...errors, email: "" });
+    } else {
+      setErrors({ ...errors, email: "Неправильный формат Email" });
+    }
+    setData({ ...data, email: e.target.value });
+  }
+
+  function handleChangePassword(e) {
+
+    if (validatePassword(e.target.value)) {
+      setErrors({ ...errors, password: "" });
+    } else {
+      setErrors({
+        ...errors,
+        password:
+          "Пароль должен состоять из не менее 8 символов, заглавных и строчных букв и цифр",
+      });
+    }
+
+    setData({ ...data, password: e.target.value });
+  }
+
+  function validateEmail(email) {
+    if (email === "") {
+      return true;
+    }
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
+  function validatePassword(password) {
+    if (password === "") {
+      return true;
+    }
+
+    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    return re.test(password);
+  }
+
+  function validateName(name) {
+    if (name === "") {
+      return true;
+    }
+
+    const re = /^[a-zA-Zа-яА-ЯёЁ]+$/;
+    return re.test(name);
+  }
+
+  const [data, setData] = React.useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = React.useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  // React.useEffect(() => {
+  //   setErrors({
+  //     name: "",
+  //     email: "",
+  //     password: "",
+  //   });
+  // }, [data]);
   
+  const [isDisabled, setIsDisabled] = React.useState(true);
+
+  React.useEffect(() => {
+    if (errors.name !== "" || errors.email !== "" || errors.password !== "") {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [errors]);
+
+
 
 
   return (
@@ -41,9 +134,10 @@ function Register({handleRegister}) {
               name="name"
               placeholder=""
               required
+              onChange={handleChangeName}
             />
-            <span className="register__error register__error-message">
-              Что-то пошло не так...
+            <span className={`register__error ` + (errors.name !== "" ? 'register__error_visible' : '')}>
+              {errors.name} 
             </span>
           </div>
           <div className="register__input-container">
@@ -54,9 +148,10 @@ function Register({handleRegister}) {
               name="email"
               placeholder=""
               required
+              onChange={handleChangeEmail}
             />
-            <span className="register__error register__error-message">
-              Что-то пошло не так...
+            <span className={`register__error ` + (errors.email !== "" ? 'register__error_visible' : '')}>
+              {errors.email}
             </span>
           </div>
           <div className="register__input-container">
@@ -67,12 +162,13 @@ function Register({handleRegister}) {
               name="password"
               placeholder=""
               required
+              onChange={handleChangePassword}
             />
-            <span className="register__error register__error-message">
-              Что-то пошло не так...
+            <span className={`register__error ` + (errors.password !== "" ? 'register__error_visible' : '')}>
+              {errors.password}
             </span>
           </div>
-          <button className="register__button" type="submit">
+          <button className={`register__button ` + (isDisabled ? 'register__button-unactive' : '')} type="submit" disabled={isDisabled}>
             Зарегистрироваться
           </button>
         </form>

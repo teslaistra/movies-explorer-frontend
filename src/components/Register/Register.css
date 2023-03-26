@@ -46,6 +46,9 @@
   padding-bottom: 10px;
   border-bottom: #424242 1px solid;
   color: #ffffff;
+}
+
+.register__input-container {
   margin-bottom: 24px;
 }
 
@@ -127,19 +130,25 @@
 }
 
 .register__error {
-  display: none;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
 
   color: #ee3465;
   margin-top: 6px;
-}
-
-.register__error_visible {
-  display: block;
+  display: none;
 }
 
 .register__input-error {
   color: #ee3465;
+}
+
+.register__error_visible{
+  display: block;
+  color: #ee3465;
+}
+
+.register__button-unactive{
+  background-color: #424242;
+  opacity: 0.8;
 }

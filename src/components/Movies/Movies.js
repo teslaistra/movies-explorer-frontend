@@ -5,75 +5,136 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesMore from "../MoviesMore/MoviesMore";
 import Footer from "../Footer/Footer";
-import { FilmsContext } from "../../contexts/FilmsContext";
-import { api } from "../../utils/MainApi";
+import { moviesApi } from "../../utils/MoviesApi";
 
 function Movies({ moreFilms, numberOfMovies, onLike, onDisLike, onlySaved }) {
-  const films = React.useContext(FilmsContext);
   const [cards, setCards] = React.useState([]);
 
+  const [savedMovies, setSavedMovies] = React.useState(
+    JSON.parse(localStorage.getItem("savedFilms"))
+  );
+  const [films, setFilms] = React.useState(
+    JSON.parse(localStorage.getItem("movies"))
+  ); // [
+  const [filteredMovies, setFilteredMovies] = React.useState(
+    JSON.parse(localStorage.getItem("foundFilms")) || []
+  );
+  const [filteredMoviesSearch, setFilteredMoviesSaved] = React.useState(
+    (JSON.parse(localStorage.getItem("foundFilmsSaved"))).filter((movie) => {
+      return savedMovies.some((savedMovie) => {
+        return savedMovie.movieId === movie.id;
+      });
+    })
+  );
+
   useEffect(() => {
-    setCards(films.filteredMovies.slice(0, numberOfMovies));
+    console.log("filteredMoviesSearch", filteredMoviesSearch);
+    localStorage.setItem("moreFilmsNumber", 0);
+    localStorage.setItem("numberOfMovies", 0);
+    
 
-    api.getSavedFilms().then((res) => {
-      if (res) {
-        films.savedMovies = res;
-      }
-
-      if (onlySaved) {
-        setCards(films.filteredMovies.filter((movie) => {
-          return res.some((savedMovie) => {
-            return savedMovie.movieId === movie.id;
-          });
-        }));
-      }
+    if (filteredMovies.length === 0) {
+      moviesApi
+        .getMovies()
+        .then((res) => {
+          setFilms(res);
+          localStorage.setItem("foundFilms", JSON.stringify(res));
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          const res = JSON.parse(localStorage.getItem("foundFilms"));
+          setFilteredMovies(res);
+          setCards(res.slice(0, numberOfMovies));
+        });
     }
-    ).catch((err) => {
-      console.log(err);
-    });
 
-    // if (onlySaved) {
-    //   console.log(films.filteredMovies.filter((movie) => {
-    //     return films.savedMovies.some((savedMovie) => {
-    //       return savedMovie.movieId === movie.id;
-    //     });
-    //   }));
-    // }
-    setCards(films.filteredMovies.slice(0, numberOfMovies));
+    if (onlySaved) {
+      setCards(
+        filteredMoviesSearch
+          .filter((movie) => {
+            return savedMovies.some((savedMovie) => {
+              return savedMovie.movieId === movie.id;
+            });
+          })
+          .slice(0, numberOfMovies)
+      );
+    } else {
+      setCards(filteredMovies.slice(0, numberOfMovies));
+    }
 
-  }, [films.filteredMovies, numberOfMovies]);
+    // return () => {
+    //   localStorage.setItem("moreFilmsNumber", 0);
+    //   localStorage.setItem("numberOfMovies", 0);
+    // };
+  }, [
+    numberOfMovies,
+    onlySaved,
+    savedMovies,
+    filteredMoviesSearch,
+    filteredMovies,
+    setCards,
+    setFilteredMovies,
+    setFilteredMoviesSaved,
+    setFilms,
+  ]);
 
   function handleSearch() {
-    console.log(films);
-    if (films.search === "" || films.search === undefined) {
-      console.log(films.isShortMovies);
-      films.filteredMovies = films.movies.filter(
+    const isShortMovies = JSON.parse(localStorage.getItem("isShortMovies"));
+    const search = localStorage.getItem("search");
+    const filmsToSearch = onlySaved
+      ? films.filter((movie) => {
+          return savedMovies.some((savedMovie) => {
+            return savedMovie.movieId === movie.id;
+          });
+        })
+      : films;
+
+    let foundFilms = [];
+
+    if (search === "" || search === undefined) {
+      foundFilms = filmsToSearch.filter(
+        (movie) => (movie.duration <= 40 && isShortMovies) || !isShortMovies
+      );
+
+      setFilteredMovies(foundFilms);
+    } else {
+      foundFilms = filmsToSearch.filter(
         (movie) =>
-          (movie.duration <= 40 && films.isShortMovies) || !films.isShortMovies
+          (movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
+            movie.nameEN.toLowerCase().includes(search.toLowerCase())) &&
+          ((movie.duration <= 40 && isShortMovies) || !isShortMovies)
       );
     }
-    films.filteredMovies = films.movies.filter(
-      (movie) =>
-        (movie.nameRU.toLowerCase().includes(films.search.toLowerCase()) ||
-          movie.nameEN.toLowerCase().includes(films.search.toLowerCase())) &&
-        ((movie.duration <= 40 && films.isShortMovies) || !films.isShortMovies)
-    );
-    setCards(films.filteredMovies.slice(0, numberOfMovies));
 
+    setCards(foundFilms.slice(0, numberOfMovies));
+    if (onlySaved) {
+      localStorage.setItem("foundFilmsSaved", JSON.stringify(foundFilms));
+      setFilteredMoviesSaved(foundFilms);
+    } else {
+      localStorage.setItem("foundFilms", JSON.stringify(foundFilms));
+      setFilteredMovies(foundFilms);
+    }
   }
 
-  console.log(films);
-  console.log(onlySaved);
+  console.log(numberOfMovies, filteredMoviesSearch.length);
 
   return (
-    console.log(films.filteredMovies.length),
     <div className="movies">
       <div className="movies__container">
         <Header loggedIn={true} />
         <SearchForm handleSearch={handleSearch} />
-        <MoviesCardList cards={cards} numberOfMovies={numberOfMovies} onLike={onLike} onDisLike={onDisLike}/>
+        <MoviesCardList
+          cards={cards}
+          numberOfMovies={numberOfMovies}
+          onLike={onLike}
+          onDisLike={onDisLike}
+          onlySaved={onlySaved}
+        />
         {cards.length === 0 ||
-        cards.length <= numberOfMovies ? null : (
+        (onlySaved ? filteredMoviesSearch.length : filteredMovies.length) <=
+          numberOfMovies ? null : (
           <MoviesMore moreFilms={moreFilms} />
         )}
       </div>

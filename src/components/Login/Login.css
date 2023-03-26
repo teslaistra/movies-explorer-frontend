@@ -46,6 +46,9 @@
   padding-bottom: 10px;
   border-bottom: #424242 1px solid;
   color: #ffffff;
+}
+
+.login__input-container{
   margin-bottom: 24px;
 }
 
@@ -71,6 +74,22 @@
   color: #8b8b8b;
 }
 
+.login__error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+
+  color: #ee3465;
+  margin-top: 6px;
+  display: none;
+}
+.login__error_visible{
+  display: block;
+  color: #ee3465;
+}
+
+
+
 .login__button {
   width: 100%;
   height: 45px;
@@ -84,6 +103,12 @@
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   margin-top: 155px;
+}
+
+.login__button-unactive{
+  background-color: #424242;
+  opacity: 0.8;
+
 }
 
 .login__button:hover {

@@ -99,6 +99,25 @@
   margin: 0;
 }
 
+.profile-form__button-unactive{
+  opacity: 0.5;
+  cursor: default;
+  color: #424242;
+}
+
+.profile-form__button-success{
+  color: #00ff00;
+}
+
+.profile-form__error{
+  margin: 0;
+  color: #ee3465;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: right;
+  width: 100%;
+}
 @media (max-width: 1280px) {
   .profile-form__title {
     margin-top: 236px;

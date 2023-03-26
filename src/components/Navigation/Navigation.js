@@ -6,11 +6,11 @@ function Navigation() {
   return (
     <nav className="navigation">
       <ul className="navigation__list">
-        <li className="navigation__list-item navigation__list-item_type_mobile-only">
+        {/* <li className="navigation__list-item navigation__list-item_type_mobile-only">
           <Link className="navigation__link" to="/">
             Главная
           </Link>
-        </li>
+        </li> */}
         <li className="navigation__list-item">
           <Link className="navigation__link" to="/movies">
             Фильмы

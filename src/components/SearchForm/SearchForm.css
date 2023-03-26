@@ -1,7 +1,15 @@
 .search-form {
   background-color: #202020;
   padding-top: 80px;
+  color: #ffffff;
+
 }
+
+.search-form__input {
+  outline: none;
+  color: white;
+}
+
 .search-form__container {
   display: flex;
   flex-direction: row;
@@ -77,6 +85,11 @@
   max-width: 1140px;
   margin: auto;
   padding-bottom: 10px;
+}
+.search-form__filter-button{
+  background-color: #2f2f2f;
+  border: none;
+  color: #ffffff;
 }
 
 @media (max-width: 1280px) {

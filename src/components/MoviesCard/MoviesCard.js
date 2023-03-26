@@ -1,15 +1,27 @@
 import React, { useEffect } from "react";
 import "./MoviesCard.css";
-import { FilmsContext } from "../../contexts/FilmsContext";
+import deleteImage from "../../images/delete.svg";
 
-function MoviesCard({ name, duration, image, isLiked, onLike, onDisLike, youtubeLink, fullCard }) {
-  const films = React.useContext(FilmsContext);
+function MoviesCard({
+  name,
+  duration,
+  image,
+  isLiked,
+  onLike,
+  onDisLike,
+  youtubeLink,
+  fullCard,
+  onlySaved,
+}) {
   const [isLikeClicked, setisLikeClicked] = React.useState(isLiked);
+  const allFilms = JSON.parse(localStorage.getItem("films"));
+  const savedMovies = JSON.parse(localStorage.getItem("savedFilms"));
+  const [isDeleted, setisDeleted] = React.useState(false);
 
+  const films = { ...allFilms, savedMovies };
   useEffect(() => {
     setisLikeClicked(isLiked);
   }, [isLiked]);
-
 
   function LikeClick() {
     if (isLikeClicked) {
@@ -17,11 +29,19 @@ function MoviesCard({ name, duration, image, isLiked, onLike, onDisLike, youtube
     } else {
       onLike(createMovieToSave());
     }
-    // setisLikeClicked(!isLikeClicked);
+    setisLikeClicked(!isLikeClicked);
   }
 
- function getMovieIdFromSavedMovies() {
-    const movie = films.savedMovies.find((movie) => movie.movieId === fullCard.id);
+  function deleteLikeClick() {
+    onDisLike(getMovieIdFromSavedMovies());
+    setisLikeClicked(!isLikeClicked);
+    setisDeleted(true);
+  }
+
+  function getMovieIdFromSavedMovies() {
+    const movie = films.savedMovies.find(
+      (movie) => movie.movieId === fullCard.id
+    );
     return movie._id;
   }
 
@@ -38,15 +58,18 @@ function MoviesCard({ name, duration, image, isLiked, onLike, onDisLike, youtube
       movieId: fullCard.id,
       nameRU: fullCard.nameRU,
       nameEN: fullCard.nameEN,
-
     };
     return movie;
   }
 
-  
   return (
-    <div className="movie-card">
-      <a href={youtubeLink} target="_blank" rel="noreferrer" className="movie-card__link">
+    <div className={`movie-card ` + (isDeleted ? 'movie-card_status_deleted' : '')}>
+      <a
+        href={youtubeLink}
+        target="_blank"
+        rel="noreferrer"
+        className="movie-card__link"
+      >
         <img className="movie-card__image" src={image} alt="афиша фильма"></img>
       </a>
       <div className="movie-card__info">
@@ -55,12 +78,18 @@ function MoviesCard({ name, duration, image, isLiked, onLike, onDisLike, youtube
           <p className="movie-card__timing">{duration}</p>
         </div>
 
-        <button
-          onClick={LikeClick}
-          className={`movie-card__is-liked ${
-            isLikeClicked && "movie-card__liked"
-          }`}
-        ></button>
+        {onlySaved ? (
+          <button className="movie-card__delete" onClick={deleteLikeClick}>
+            <img src={deleteImage} alt="delete"></img>
+          </button>
+        ) : (
+          <button
+            onClick={LikeClick}
+            className={`movie-card__is-liked ${
+              isLikeClicked && "movie-card__liked"
+            }`}
+          ></button>
+        )}
       </div>
     </div>
   );

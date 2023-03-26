@@ -1,22 +1,25 @@
 import React from "react";
 import "./Filter.css";
-import { FilmsContext } from "../../contexts/FilmsContext";
 
-function Filter({ title }) {
-  const films = React.useContext(FilmsContext);
+function Filter({ title, state, handleSearch }) {
 
-  const [isFilterClicked, setisFilterClicked] = React.useState(true);
+  const [isFilterClicked, setisFilterClicked] = React.useState(
+    localStorage.getItem("isShortMovies") === "true" ? true : false
+  );
 
   function FilterClick() {
+    const isShortMovies = localStorage.getItem("isShortMovies");
+    if (isShortMovies === "true") {
+      localStorage.setItem("isShortMovies", false);
+    } else {
+      localStorage.setItem("isShortMovies", true);
+    }
     setisFilterClicked(!isFilterClicked);
+    handleSearch();
   }
 
   React.useEffect(() => {
-    if (isFilterClicked) {
-      films.isShortMovies = true;
-    } else {
-      films.isShortMovies = false;
-    }
+    localStorage.setItem("isShortMovies", isFilterClicked);
   }, [isFilterClicked]);
 
   return (
@@ -24,7 +27,7 @@ function Filter({ title }) {
       <div
         onClick={FilterClick}
         className={`filter__button ${
-          isFilterClicked && "filter__button_active"
+          isFilterClicked ? "filter__button_active" : ""
         }`}
       >
         <div className="filter__button-cursor"></div>

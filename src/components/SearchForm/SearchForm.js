@@ -2,11 +2,8 @@ import React from "react";
 import "./SearchForm.css";
 import icon from "../../images/icon-search-white.svg";
 import Filter from "../Filter/Filter";
-import { FilmsContext } from "../../contexts/FilmsContext";
 
 function SearchForm({ handleSearch }) {
-  const films = React.useContext(FilmsContext);
-
   const [search, setSearch] = React.useState("");
 
   function handleFieldChange(e) {
@@ -14,11 +11,12 @@ function SearchForm({ handleSearch }) {
   };
 
   function handleSubmit(e) {
-    films.search = search;
+    localStorage.setItem("search", search);
     e.preventDefault();
     handleSearch();
   }
 
+  const isShortMovies = localStorage.getItem("isShortMovies");
 
   return (
     <section className="search-form">
@@ -42,7 +40,8 @@ function SearchForm({ handleSearch }) {
             </button>
           </form>
           <div className="search-form__separator search-form__separator-type-mobile"></div>
-          <Filter title={"Короткометражки"} />
+            <Filter title={"Короткометражки"} state={isShortMovies} handleSearch={handleSearch}/>
+
         </div>
         <div className="search-form__separator-orientation-horizontal"></div>
       </div>
