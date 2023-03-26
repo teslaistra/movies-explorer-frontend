@@ -28,7 +28,6 @@ function Movies({ moreFilms, numberOfMovies, onLike, onDisLike, onlySaved }) {
   );
 
   useEffect(() => {
-    console.log("filteredMoviesSearch", filteredMoviesSearch);
     localStorage.setItem("moreFilmsNumber", 0);
     localStorage.setItem("numberOfMovies", 0);
     
@@ -117,8 +116,6 @@ function Movies({ moreFilms, numberOfMovies, onLike, onDisLike, onlySaved }) {
       setFilteredMovies(foundFilms);
     }
   }
-
-  console.log(numberOfMovies, filteredMoviesSearch.length);
 
   return (
     <div className="movies">
