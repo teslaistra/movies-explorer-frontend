@@ -9,7 +9,6 @@ import BurgerMenu from "../BurgerMenu/BurgerMenu";
 
 function Header({ loggedIn }) {
   const isStartPage = useLocation().pathname === "/";
-
   return (
     <header
       className={`header ${

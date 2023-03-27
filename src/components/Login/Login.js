@@ -50,11 +50,11 @@ function Login({ handleLogin }) {
     setData({ ...data, password: e.target.value });
   }
 
-  // React.useEffect(() => {
-  //   if (localStorage.getItem("jwt")) {
-  //     history.push("/movies");
-  //   }
-  // }, []);
+  React.useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      history.push("/");
+    }
+  }, []);
 
   function validateEmail(email) {
     if (email === "") {

@@ -20,7 +20,7 @@ function Register({handleRegister}) {
 
   React.useEffect(() => {
     if (localStorage.getItem("jwt")) {
-      history.push("/movies");
+      history.push("/");
     }
   }, []);
 

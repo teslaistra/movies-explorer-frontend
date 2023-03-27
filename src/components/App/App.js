@@ -18,7 +18,7 @@ import ErrorPopup from "../ErrorPopup/ErrorPopup";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(
-    localStorage.getItem("jwt") !== "" ? true : false
+    !(localStorage.getItem("jwt") == null) ? true : false
   );
   const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState({
@@ -156,13 +156,13 @@ function App() {
     localStorage.removeItem("numberOfMovies");
     localStorage.removeItem("movies");
     localStorage.removeItem("foundFilms");
-    localStorage.removeItem("savedMovies");
+    localStorage.removeItem("savedFilms");
     localStorage.removeItem("foundFilmsSaved");
     localStorage.removeItem("foundFilmsFilter");
     localStorage.removeItem("isShortMovies");
     localStorage.removeItem("search");
 
-    history.push("/signin");
+    history.push("/");
   }
 
   function handleEditProfile(name, email, setIsSuccess) {
@@ -222,19 +222,23 @@ function App() {
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      api.updateHeader();
-      api.getUserInfo().then((res) => {
-        if (res) {
-          setCurrentUser(res.data);
-        }
-      });
       setLoggedIn(true);
     }
-  }, []);
+  },[setLoggedIn]);
+
+  useEffect(() => {
+    api.updateHeader();
+    api.getUserInfo().then((res) => {
+      if (res) {
+        setCurrentUser(res.data);
+      }
+    });
+  }, [])
 
   function onClosePopup() {
     setIsError(false);
   }
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
