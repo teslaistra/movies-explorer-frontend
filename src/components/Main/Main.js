@@ -11,7 +11,7 @@ import "./main.css";
 function Main({ loggedIn }) {
   return (
     <main className="main">
-      <Header loggedIn={ loggedIn }/>
+      <Header loggedIn={loggedIn} />
       <Promo />
       <AboutProject />
       <Techs />

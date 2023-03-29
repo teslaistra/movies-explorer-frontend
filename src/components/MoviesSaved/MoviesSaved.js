@@ -4,25 +4,30 @@ import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
+import { SHORT_MOVIE_DURATION } from "../../utils/constants";
 
-function MoviesSaved({ onLike, onDisLike, savedMovies }) {
+function MoviesSaved({ onLike, onDisLike, movies, savedMovies }) {
   const [cards, setCards] = React.useState([]);
 
-  const [savedMoviesSearch, setSavedMoviesSearch] = React.useState(() => {
-    return JSON.parse(localStorage.getItem("movies")).filter((movie) => {
-      return JSON.parse(localStorage.getItem("savedFilms")).some(
-        (savedMovie) => {
+  const [search, setSearch] = React.useState("");
+  const [isShortMovies, setIsShortMovies] = React.useState();
+
+  const [savedMoviesSearch, setSavedMoviesSearch] = React.useState([]);
+
+  useEffect(() => {
+    setIsShortMovies(JSON.parse(localStorage.getItem("isShortMovies")));
+    setSearch(localStorage.getItem("search"));
+  }, []);
+
+  useEffect(() => {
+    setSavedMoviesSearch(
+      movies.filter((movie) => {
+        return savedMovies.some((savedMovie) => {
           return savedMovie.movieId === movie.id;
-        }
-      );
-    });
-  });
-
-  const [isShortMovies, setIsShortMovies] = React.useState(
-    JSON.parse(localStorage.getItem("isShortMovies"))
-  );
-
-  const [search, setSearch] = React.useState(localStorage.getItem("search"));
+        });
+      })
+    );
+  }, [savedMovies, movies]);
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("movies")).filter((movie) => {
@@ -34,9 +39,15 @@ function MoviesSaved({ onLike, onDisLike, savedMovies }) {
     });
 
     setSavedMoviesSearch(
-      saved.filter((movie) => !isShortMovies || movie.duration <= 40)
+      saved.filter(
+        (movie) => !isShortMovies || movie.duration <= SHORT_MOVIE_DURATION
+      )
     );
-    setCards(saved.filter((movie) => !isShortMovies || movie.duration <= 40));
+    setCards(
+      saved.filter(
+        (movie) => !isShortMovies || movie.duration <= SHORT_MOVIE_DURATION
+      )
+    );
   }, [setIsShortMovies]);
 
   function handleSearch() {
@@ -55,14 +66,17 @@ function MoviesSaved({ onLike, onDisLike, savedMovies }) {
 
     if (search === "" || search === undefined) {
       foundFilms = saved.filter(
-        (movie) => (movie.duration <= 40 && isShortMovies) || !isShortMovies
+        (movie) =>
+          (movie.duration <= SHORT_MOVIE_DURATION && isShortMovies) ||
+          !isShortMovies
       );
     } else {
       foundFilms = saved.filter(
         (movie) =>
           (movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
             movie.nameEN.toLowerCase().includes(search.toLowerCase())) &&
-          ((movie.duration <= 40 && isShortMovies) || !isShortMovies)
+          ((movie.duration <= SHORT_MOVIE_DURATION && isShortMovies) ||
+            !isShortMovies)
       );
     }
 
@@ -70,7 +84,6 @@ function MoviesSaved({ onLike, onDisLike, savedMovies }) {
   }
 
   return (
-    console.log(savedMovies),
     <div className="movies">
       <div className="movies__container">
         <Header loggedIn={true} />
@@ -81,7 +94,7 @@ function MoviesSaved({ onLike, onDisLike, savedMovies }) {
           onLike={onLike}
           onDisLike={onDisLike}
           onlySaved={true}
-          savedMovies={savedMovies}
+          savedFilms={savedMovies}
         />
       </div>
       <Footer />

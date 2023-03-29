@@ -20,7 +20,6 @@ function ProfileForm({ onEditProfile, handleSignout }) {
     setEmail(currentUser.email);
 
     setIsDisabled(true);
-
   }, [currentUser]);
 
   function handleChangeName(e) {
@@ -49,11 +48,7 @@ function ProfileForm({ onEditProfile, handleSignout }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    onEditProfile(
-      name,
-      email,
-      setIsSuccess,
-    );
+    onEditProfile(name, email, setIsSuccess);
   }
 
   function handleOut(e) {
@@ -77,7 +72,6 @@ function ProfileForm({ onEditProfile, handleSignout }) {
     const re = /^[a-zA-Zа-яА-Я]+$/;
     return re.test(name);
   }
-
 
   return (
     <div className="profile-form">

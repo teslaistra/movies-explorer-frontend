@@ -15,11 +15,22 @@ import { useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Preloader from "../Preloader/Preloader";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
+import {
+  MOBILE_SIZE,
+  TABLET_SIZE,
+  DESKTOP_SIZE,
+  BASE_NUMBER_MOBILE,
+  BASE_NUMBER_TABLET,
+  BASE_NUMBER_DESKTOP,
+  BASE_NUMBER_LARGE_DESKTOP,
+  ADDITIONAL_NUMBER_MOBILE,
+  ADDITIONAL_NUMBER_TABLET,
+  ADDITIONAL_NUMBER_DESKTOP,
+  ADDITIONAL_NUMBER_LARGE_DESKTOP,
+} from "../../utils/constants";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(
-    !(localStorage.getItem("jwt") == null) ? true : false
-  );
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState({
     name: "",
@@ -27,54 +38,93 @@ function App() {
   });
   const [numberOfMovies, setNumberOfMovies] = useState(0);
   const [moreFilmsNumber, setMoreFilmsNumber] = useState(0);
-  const [isError, setIsError] = useState(false);
 
+  const [savedFilms, setSavedFilms] = useState([]);
   const [films, setFilms] = useState([]);
+
+  const [isError, setIsError] = useState(false);
+  const history = useHistory();
 
   function setNumberOfMoviesFromSizeOfScreen() {
     const moreFilms = localStorage.getItem("moreFilmsNumber");
 
     const width = window.innerWidth;
-    if (width < 640) {
-      setNumberOfMovies(5 + moreFilms * 2);
-      localStorage.setItem("numberOfMovies", 5 + moreFilms * 2);
-    } else if (width < 1093) {
-      setNumberOfMovies(8 + moreFilms * 2);
-      localStorage.setItem("numberOfMovies", 8 + moreFilms * 2);
-    } else if (width < 1280) {
-      setNumberOfMovies(9 + moreFilms * 3);
-      localStorage.setItem("numberOfMovies", 9 + moreFilms * 3);
+    if (width < MOBILE_SIZE) {
+      setNumberOfMovies(
+        BASE_NUMBER_MOBILE + moreFilms * ADDITIONAL_NUMBER_MOBILE
+      );
+      localStorage.setItem(
+        "numberOfMovies",
+        BASE_NUMBER_MOBILE + moreFilms * ADDITIONAL_NUMBER_MOBILE
+      );
+    } else if (width < TABLET_SIZE) {
+      setNumberOfMovies(
+        BASE_NUMBER_TABLET + moreFilms * ADDITIONAL_NUMBER_TABLET
+      );
+      localStorage.setItem(
+        "numberOfMovies",
+        BASE_NUMBER_TABLET + moreFilms * ADDITIONAL_NUMBER_TABLET
+      );
+    } else if (width < DESKTOP_SIZE) {
+      setNumberOfMovies(
+        BASE_NUMBER_DESKTOP + moreFilms * ADDITIONAL_NUMBER_DESKTOP
+      );
+      localStorage.setItem(
+        "numberOfMovies",
+        BASE_NUMBER_DESKTOP + moreFilms * ADDITIONAL_NUMBER_DESKTOP
+      );
     } else {
-      setNumberOfMovies(12 + moreFilms * 4);
-      localStorage.setItem("numberOfMovies", 12 + moreFilms * 4);
+      setNumberOfMovies(
+        BASE_NUMBER_LARGE_DESKTOP + moreFilms * ADDITIONAL_NUMBER_LARGE_DESKTOP
+      );
+      localStorage.setItem(
+        "numberOfMovies",
+        BASE_NUMBER_LARGE_DESKTOP + moreFilms * ADDITIONAL_NUMBER_LARGE_DESKTOP
+      );
     }
   }
 
   useEffect(() => {
     window.addEventListener("resize", setNumberOfMoviesFromSizeOfScreen);
-
     return () => {
       window.removeEventListener("resize", setNumberOfMoviesFromSizeOfScreen);
     };
   }, []);
 
-  const history = useHistory();
+  useEffect(() => {
+    setLoggedIn(!(localStorage.getItem("jwt") == null) ? true : false);
+  }, []);
 
-  function getMoviesInitial() {
-    setIsLoading(true);
+  useEffect(() => {
     if (loggedIn) {
+      api
+        .getSavedFilms()
+        .then((res) => {
+          if (res) {
+            setSavedFilms(res);
+            localStorage.setItem("savedFilms", JSON.stringify(res));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    if (loggedIn) {
+      setIsLoading(true);
       if (localStorage.getItem("movies") == null) {
         moviesApi
           .getMovies()
           .then((res) => {
             if (res) {
               localStorage.setItem("movies", JSON.stringify(res));
-              setFilms(res);
-              localStorage.setItem("foundFilms", JSON.stringify(res));
               localStorage.setItem("moreFilmsNumber", 0);
               localStorage.setItem("search", "");
               localStorage.setItem("isShortMovies", "false");
-
+              setFilms(res);
+              console.log(res);
               setNumberOfMoviesFromSizeOfScreen();
             }
           })
@@ -83,30 +133,13 @@ function App() {
           });
       } else {
         localStorage.setItem("moreFilmsNumber", 0);
-        localStorage.setItem("search", "");
-        localStorage.setItem("isShortMovies", "false");
+        setFilms(JSON.parse(localStorage.getItem("movies")));
+        // localStorage.setItem("search", "");
+        // localStorage.setItem("isShortMovies", "false");
         setNumberOfMoviesFromSizeOfScreen();
       }
     }
     setIsLoading(false);
-  }
-
-  useEffect(() => {
-    if (loggedIn) {
-
-      api
-        .getSavedFilms()
-        .then((res) => {
-          if (res) {
-            localStorage.setItem("savedFilms", JSON.stringify(res));
-          }
-        }).then(() => {
-          getMoviesInitial();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
   }, [loggedIn]);
 
   function moreFilms() {
@@ -167,10 +200,7 @@ function App() {
     localStorage.removeItem("moreFilmsNumber");
     localStorage.removeItem("numberOfMovies");
     localStorage.removeItem("movies");
-    localStorage.removeItem("foundFilms");
     localStorage.removeItem("savedFilms");
-    localStorage.removeItem("foundFilmsSaved");
-    localStorage.removeItem("foundFilmsFilter");
     localStorage.removeItem("isShortMovies");
     localStorage.removeItem("search");
 
@@ -253,7 +283,6 @@ function App() {
   function onClosePopup() {
     setIsError(false);
   }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -273,6 +302,7 @@ function App() {
               loggedIn={loggedIn}
               moreFilms={moreFilms}
               movies={films}
+              savedFilms={savedFilms}
             />
             <ProtectedRoute
               exact
@@ -283,6 +313,8 @@ function App() {
               numberOfMovies={numberOfMovies}
               loggedIn={loggedIn}
               moreFilms={moreFilms}
+              movies={films}
+              savedMovies={savedFilms}
             />
             <ProtectedRoute
               exact

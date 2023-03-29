@@ -2,7 +2,6 @@ import React from "react";
 import "./Filter.css";
 
 function Filter({ title, state, handleSearch }) {
-
   const [isFilterClicked, setisFilterClicked] = React.useState(
     localStorage.getItem("isShortMovies") === "true" ? true : false
   );

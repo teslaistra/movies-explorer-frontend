@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 function Login({ handleLogin }) {
-
   const history = useHistory();
 
   const [data, setData] = React.useState({
@@ -19,7 +18,6 @@ function Login({ handleLogin }) {
   });
 
   const [isDisabled, setIsDisabled] = React.useState(true);
-
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -62,26 +60,19 @@ function Login({ handleLogin }) {
   }
 
   function validatePassword(password) {
-
     const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
     return re.test(password);
   }
 
   React.useEffect(() => {
-    if ((validateEmail(data.email) && validatePassword(data.password))) {
+    if (validateEmail(data.email) && validatePassword(data.password)) {
       setIsDisabled(false);
-    }
-    else if (data.email === "" || data.password === "") {
+    } else if (data.email === "" || data.password === "") {
       setIsDisabled(true);
-    } 
-    else {
+    } else {
       setIsDisabled(true);
     }
   }, [data]);
-
-
-  
-  
 
   return (
     <div className="login">
@@ -92,33 +83,48 @@ function Login({ handleLogin }) {
         <h1 className="login__title">Рады видеть!</h1>
         <form className="login__form" onSubmit={handleSubmit}>
           <div className="login__input-container">
-          <label className="login__label">E-mail</label>
-          <input
-            className="login__input"
-            type="email"
-            placeholder=""
-            onChange={handleChangeEmail}
-            required
-          />
-          <span className={`login__error ` + (errors.email !== "" ? 'login__error_visible' : '')}>
-              {errors.email} 
-          </span>
+            <label className="login__label">E-mail</label>
+            <input
+              className="login__input"
+              type="email"
+              placeholder=""
+              onChange={handleChangeEmail}
+              required
+            />
+            <span
+              className={
+                `login__error ` +
+                (errors.email !== "" ? "login__error_visible" : "")
+              }
+            >
+              {errors.email}
+            </span>
           </div>
           <div className="login__input-container">
-          <label className="login__label">Пароль</label>
-          <input
-            className="login__input"
-            type="password"
-            placeholder=""
-            onChange={handleChangePassword}
-            required
-          />
-          <span className={`login__error ` + (errors.password !== "" ? 'login__error_visible' : '')}>
-
+            <label className="login__label">Пароль</label>
+            <input
+              className="login__input"
+              type="password"
+              placeholder=""
+              onChange={handleChangePassword}
+              required
+            />
+            <span
+              className={
+                `login__error ` +
+                (errors.password !== "" ? "login__error_visible" : "")
+              }
+            >
               {errors.password}
-          </span>
+            </span>
           </div>
-          <button className={`login__button ` + (isDisabled ? 'login__button-unactive' : '')} type="submit" disabled={isDisabled}>
+          <button
+            className={
+              `login__button ` + (isDisabled ? "login__button-unactive" : "")
+            }
+            type="submit"
+            disabled={isDisabled}
+          >
             Войти
           </button>
         </form>

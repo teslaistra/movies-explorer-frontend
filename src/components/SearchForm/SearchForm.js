@@ -8,10 +8,14 @@ function SearchForm({ handleSearch }) {
 
   function handleFieldChange(e) {
     setSearch(e.target.value);
-  };
+  }
 
   function handleSubmit(e) {
-    localStorage.setItem("search", search);
+    if (search == null) {
+      localStorage.setItem("search", "");
+    } else {
+      localStorage.setItem("search", search);
+    }
     e.preventDefault();
     handleSearch();
   }
@@ -20,7 +24,6 @@ function SearchForm({ handleSearch }) {
     const search = localStorage.getItem("search");
     setSearch(search);
   }, []);
-  
 
   const isShortMovies = localStorage.getItem("isShortMovies");
 
@@ -36,7 +39,7 @@ function SearchForm({ handleSearch }) {
               type="text"
               placeholder="Фильм"
               onChange={handleFieldChange}
-              value={search} 
+              value={search}
             />
             <button type="submit" className="search-form__button">
               <img
@@ -47,8 +50,11 @@ function SearchForm({ handleSearch }) {
             </button>
           </form>
           <div className="search-form__separator search-form__separator-type-mobile"></div>
-            <Filter title={"Короткометражки"} state={isShortMovies} handleSearch={handleSearch}/>
-
+          <Filter
+            title={"Короткометражки"}
+            state={isShortMovies}
+            handleSearch={handleSearch}
+          />
         </div>
         <div className="search-form__separator-orientation-horizontal"></div>
       </div>

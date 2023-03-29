@@ -4,8 +4,7 @@ import "./Register.css";
 import { useHistory } from "react-router-dom";
 import Logo from "../../images/logo.svg";
 
-function Register({handleRegister}) {
-
+function Register({ handleRegister }) {
   const history = useHistory();
 
   function handleSubmit(e) {
@@ -13,7 +12,6 @@ function Register({handleRegister}) {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const name = e.target.name.value;
-
 
     handleRegister(email, password, name);
   }
@@ -27,7 +25,7 @@ function Register({handleRegister}) {
   function handleChangeName(e) {
     if (validateName(e.target.value)) {
       setErrors({ ...errors, name: "" });
-    } else {  
+    } else {
       setErrors({ ...errors, name: "Имя должно состоять только из букв" });
     }
 
@@ -35,7 +33,6 @@ function Register({handleRegister}) {
   }
 
   function handleChangeEmail(e) {
-
     if (validateEmail(e.target.value)) {
       setErrors({ ...errors, email: "" });
     } else {
@@ -45,7 +42,6 @@ function Register({handleRegister}) {
   }
 
   function handleChangePassword(e) {
-
     if (validatePassword(e.target.value)) {
       setErrors({ ...errors, password: "" });
     } else {
@@ -60,27 +56,16 @@ function Register({handleRegister}) {
   }
 
   function validateEmail(email) {
-    if (email === "") {
-      return true;
-    }
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
 
   function validatePassword(password) {
-    if (password === "") {
-      return true;
-    }
-
     const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
     return re.test(password);
   }
 
   function validateName(name) {
-    if (name === "") {
-      return true;
-    }
-
     const re = /^[a-zA-Zа-яА-ЯёЁ]+$/;
     return re.test(name);
   }
@@ -104,19 +89,18 @@ function Register({handleRegister}) {
   //     password: "",
   //   });
   // }, [data]);
-  
+
   const [isDisabled, setIsDisabled] = React.useState(true);
 
   React.useEffect(() => {
     if (errors.name !== "" || errors.email !== "" || errors.password !== "") {
       setIsDisabled(true);
+    } else if (data.name === "" || data.email === "" || data.password === "") {
+      setIsDisabled(true);
     } else {
       setIsDisabled(false);
     }
   }, [errors]);
-
-
-
 
   return (
     <div className="register">
@@ -136,8 +120,13 @@ function Register({handleRegister}) {
               required
               onChange={handleChangeName}
             />
-            <span className={`register__error ` + (errors.name !== "" ? 'register__error_visible' : '')}>
-              {errors.name} 
+            <span
+              className={
+                `register__error ` +
+                (errors.name !== "" ? "register__error_visible" : "")
+              }
+            >
+              {errors.name}
             </span>
           </div>
           <div className="register__input-container">
@@ -150,7 +139,12 @@ function Register({handleRegister}) {
               required
               onChange={handleChangeEmail}
             />
-            <span className={`register__error ` + (errors.email !== "" ? 'register__error_visible' : '')}>
+            <span
+              className={
+                `register__error ` +
+                (errors.email !== "" ? "register__error_visible" : "")
+              }
+            >
               {errors.email}
             </span>
           </div>
@@ -164,11 +158,23 @@ function Register({handleRegister}) {
               required
               onChange={handleChangePassword}
             />
-            <span className={`register__error ` + (errors.password !== "" ? 'register__error_visible' : '')}>
+            <span
+              className={
+                `register__error ` +
+                (errors.password !== "" ? "register__error_visible" : "")
+              }
+            >
               {errors.password}
             </span>
           </div>
-          <button className={`register__button ` + (isDisabled ? 'register__button-unactive' : '')} type="submit" disabled={isDisabled}>
+          <button
+            className={
+              `register__button ` +
+              (isDisabled ? "register__button-unactive" : "")
+            }
+            type="submit"
+            disabled={isDisabled}
+          >
             Зарегистрироваться
           </button>
         </form>

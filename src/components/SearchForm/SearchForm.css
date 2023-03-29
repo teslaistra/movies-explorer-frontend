@@ -2,7 +2,6 @@
   background-color: #202020;
   padding-top: 80px;
   color: #ffffff;
-
 }
 
 .search-form__input {
@@ -86,7 +85,7 @@
   margin: auto;
   padding-bottom: 10px;
 }
-.search-form__filter-button{
+.search-form__filter-button {
   background-color: #2f2f2f;
   border: none;
   color: #ffffff;

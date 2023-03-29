@@ -9,7 +9,10 @@ function Profile({ onEditProfile, handleSignout }) {
   return (
     <div className="profile">
       <Header loggedIn={true} />
-      <ProfileForm onEditProfile={onEditProfile} handleSignout={handleSignout}/>
+      <ProfileForm
+        onEditProfile={onEditProfile}
+        handleSignout={handleSignout}
+      />
       <Footer />
     </div>
   );

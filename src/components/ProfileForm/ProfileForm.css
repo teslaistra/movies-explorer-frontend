@@ -39,17 +39,17 @@
   background-color: #202020;
   text-align: right;
   padding: 0;
-  color: #FFFFFF;
+  color: #ffffff;
   width: 90%;
 }
 
-.profile-form__input:active{
+.profile-form__input:active {
   outline: none;
   background-color: #202020;
   border: none;
 }
 
-.profile-form__input:focus{
+.profile-form__input:focus {
   outline: none;
   background-color: #202020;
   border: none;
@@ -99,17 +99,17 @@
   margin: 0;
 }
 
-.profile-form__button-unactive{
+.profile-form__button-unactive {
   opacity: 0.5;
   cursor: default;
   color: #424242;
 }
 
-.profile-form__button-success{
+.profile-form__button-success {
   color: #00ff00;
 }
 
-.profile-form__error{
+.profile-form__error {
   margin: 0;
   color: #ee3465;
   font-weight: 400;

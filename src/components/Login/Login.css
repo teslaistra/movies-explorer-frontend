@@ -48,7 +48,7 @@
   color: #ffffff;
 }
 
-.login__input-container{
+.login__input-container {
   margin-bottom: 24px;
 }
 
@@ -83,12 +83,10 @@
   margin-top: 6px;
   display: none;
 }
-.login__error_visible{
+.login__error_visible {
   display: block;
   color: #ee3465;
 }
-
-
 
 .login__button {
   width: 100%;
@@ -110,10 +108,9 @@
   opacity: 0.8;
 }
 
-.login__button-unactive{
+.login__button-unactive {
   background-color: #424242;
   opacity: 0.8;
-
 }
 
 .login__button:hover {

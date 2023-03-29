@@ -143,12 +143,12 @@
   color: #ee3465;
 }
 
-.register__error_visible{
+.register__error_visible {
   display: block;
   color: #ee3465;
 }
 
-.register__button-unactive{
+.register__button-unactive {
   background-color: #424242;
   opacity: 0.8;
 }

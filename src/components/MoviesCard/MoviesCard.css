@@ -32,7 +32,7 @@
   margin-bottom: 10px;
 }
 
-.movie-card__delete{
+.movie-card__delete {
   background-color: #222222;
   border: 0;
   cursor: pointer;
@@ -40,7 +40,7 @@
   margin-right: 15px;
 }
 
-.movie-card_status_deleted{
+.movie-card_status_deleted {
   display: none;
 }
 .movie-card__timing {

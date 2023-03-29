@@ -63,7 +63,9 @@ function MoviesCard({
   }
 
   return (
-    <div className={`movie-card ` + (isDeleted ? 'movie-card_status_deleted' : '')}>
+    <div
+      className={`movie-card ` + (isDeleted ? "movie-card_status_deleted" : "")}
+    >
       <a
         href={youtubeLink}
         target="_blank"

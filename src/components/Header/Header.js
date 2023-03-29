@@ -41,31 +41,44 @@ function Header({ loggedIn }) {
                 <>
                   <Link
                     to="/movies"
-                    className={`header__button header__button-film ${ !isStartPage ? "header__button_position_start" : ""}`}
+                    className={`header__button header__button-film ${
+                      !isStartPage ? "header__button_position_start" : ""
+                    }`}
                   >
                     Фильмы
                   </Link>
                   <Link
                     to="/saved-movies"
-                    className={`header__button header__button-film ${ !isStartPage ? "header__button_position_start" : ""}`}
+                    className={`header__button header__button-film ${
+                      !isStartPage ? "header__button_position_start" : ""
+                    }`}
                   >
                     Сохраненные фильмы
                   </Link>
                   <Link
                     to="/profile"
-                    className={`header__button header__button-user ${ isStartPage ? "header__button-user_position_start" : ""}`}
+                    className={`header__button header__button-user ${
+                      isStartPage ? "header__button-user_position_start" : ""
+                    }`}
                   >
-                                        {isStartPage ? null : <span className="header__user-name">Аккаунт</span>}
+                    {isStartPage ? null : (
+                      <span className="header__user-name">Аккаунт</span>
+                    )}
 
-                    <div className={`header__profile-icon ${ isStartPage ? "header__profile-icon_position_start" : ""}`}>
+                    <div
+                      className={`header__profile-icon ${
+                        isStartPage ? "header__profile-icon_position_start" : ""
+                      }`}
+                    >
                       <img
                         className="header__profile-image"
                         src={user}
                         alt="user"
                       />
                     </div>
-                    {!isStartPage ? null : <span className="header__user-name">Аккаунт</span>}
-                    
+                    {!isStartPage ? null : (
+                      <span className="header__user-name">Аккаунт</span>
+                    )}
                   </Link>
                 </>
               </>

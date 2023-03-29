@@ -5,44 +5,53 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesMore from "../MoviesMore/MoviesMore";
 import Footer from "../Footer/Footer";
+import { SHORT_MOVIE_DURATION } from "../../utils/constants";
 
-function Movies({ moreFilms, numberOfMovies, onLike, onDisLike, movies }) {
+function Movies({
+  moreFilms,
+  numberOfMovies,
+  onLike,
+  onDisLike,
+  movies,
+  savedFilms,
+}) {
   const [cards, setCards] = React.useState(movies.slice(0, numberOfMovies));
 
-  const [filteredMovies, setFilteredMovies] = React.useState(movies);
+  const [filteredMovies, setFilteredMovies] = React.useState([]);
+
+  useEffect(() => {
+    setCards(movies.slice(0, numberOfMovies));
+  }, [numberOfMovies, movies]);
 
   function handleSearch() {
     const isShortMovies = JSON.parse(localStorage.getItem("isShortMovies"));
     const search = localStorage.getItem("search");
 
-    const filmsToSearch = JSON.parse(localStorage.getItem("movies"));
-    console.log(filmsToSearch);
-
     let foundFilms = [];
-      console.log(filmsToSearch)
 
     if (search === "" || search == null) {
-      foundFilms = filmsToSearch.filter(
-        (movie) => (movie.duration <= 40 && isShortMovies) || !isShortMovies
+      foundFilms = movies.filter(
+        (movie) =>
+          (movie.duration <= SHORT_MOVIE_DURATION && isShortMovies) ||
+          !isShortMovies
       );
     } else {
-      foundFilms = filmsToSearch.filter(
+      foundFilms = movies.filter(
         (movie) =>
           (movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
             movie.nameEN.toLowerCase().includes(search.toLowerCase())) &&
-          ((movie.duration <= 40 && isShortMovies) || !isShortMovies)
+          ((movie.duration <= SHORT_MOVIE_DURATION && isShortMovies) ||
+            !isShortMovies)
       );
     }
-    console.log(foundFilms);
     setCards(foundFilms.slice(0, numberOfMovies));
 
-    localStorage.setItem("foundFilms", JSON.stringify(foundFilms));
     setFilteredMovies(foundFilms);
   }
 
   useEffect(() => {
     handleSearch();
-  
+
     //setCards(filteredMovies.slice(0, numberOfMovies));
 
     // return () => {
@@ -56,26 +65,25 @@ function Movies({ moreFilms, numberOfMovies, onLike, onDisLike, movies }) {
   }, [numberOfMovies, filteredMovies, movies]);
 
   return (
-    (
-      <div className="movies">
-        <div className="movies__container">
-          <Header loggedIn={true} />
-          <SearchForm handleSearch={handleSearch} />
-          <MoviesCardList
-            cards={cards}
-            numberOfMovies={numberOfMovies}
-            onLike={onLike}
-            onDisLike={onDisLike}
-            onlySaved={false}
-          />
-          {cards.length === 0 ||
-          filteredMovies.length <= numberOfMovies ? null : (
-            <MoviesMore moreFilms={moreFilms} />
-          )}
-        </div>
-        <Footer />
+    <div className="movies">
+      <div className="movies__container">
+        <Header loggedIn={true} />
+        <SearchForm handleSearch={handleSearch} />
+        <MoviesCardList
+          cards={cards}
+          numberOfMovies={numberOfMovies}
+          onLike={onLike}
+          onDisLike={onDisLike}
+          onlySaved={false}
+          savedFilms={savedFilms}
+        />
+        {cards.length === 0 ||
+        filteredMovies.length <= numberOfMovies ? null : (
+          <MoviesMore moreFilms={moreFilms} />
+        )}
       </div>
-    )
+      <Footer />
+    </div>
   );
 }
 
