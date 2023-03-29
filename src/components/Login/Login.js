@@ -57,26 +57,24 @@ function Login({ handleLogin }) {
   }, []);
 
   function validateEmail(email) {
-    if (email === "") {
-      return true;
-    }
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
 
   function validatePassword(password) {
-    if (password === "") {
-      return true;
-    }
 
     const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
     return re.test(password);
   }
 
   React.useEffect(() => {
-    if ((validateEmail(data.email) && validatePassword(data.password)) || (data.email === "" && data.password === "")) {
+    if ((validateEmail(data.email) && validatePassword(data.password))) {
       setIsDisabled(false);
-    } else {
+    }
+    else if (data.email === "" || data.password === "") {
+      setIsDisabled(true);
+    } 
+    else {
       setIsDisabled(true);
     }
   }, [data]);

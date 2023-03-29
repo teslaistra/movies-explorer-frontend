@@ -16,6 +16,12 @@ function SearchForm({ handleSearch }) {
     handleSearch();
   }
 
+  React.useEffect(() => {
+    const search = localStorage.getItem("search");
+    setSearch(search);
+  }, []);
+  
+
   const isShortMovies = localStorage.getItem("isShortMovies");
 
   return (
@@ -30,6 +36,7 @@ function SearchForm({ handleSearch }) {
               type="text"
               placeholder="Фильм"
               onChange={handleFieldChange}
+              value={search} 
             />
             <button type="submit" className="search-form__button">
               <img

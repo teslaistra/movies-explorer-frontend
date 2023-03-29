@@ -19,7 +19,6 @@ function MoviesCardList({ cards, onLike, onDisLike, onlySaved }) {
       onlySaved={onlySaved}
     />
   ));
-
   return (
     <section className="movies-card-list">
       <div className="movies-card-list__container">{cardsList.length === 0 ? <h2 className="movies-card-list__no-films">Фильмы не найдены</h2> : cardsList}</div>

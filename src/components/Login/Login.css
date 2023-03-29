@@ -105,6 +105,11 @@
   margin-top: 155px;
 }
 
+.login__button:invalid {
+  background-color: #424242;
+  opacity: 0.8;
+}
+
 .login__button-unactive{
   background-color: #424242;
   opacity: 0.8;

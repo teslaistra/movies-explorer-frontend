@@ -2,7 +2,7 @@ import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
-import SavedMovies from "../SavedMovies/SavedMovies";
+import MoviesSaved from "../MoviesSaved/MoviesSaved";
 import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import NotFound from "../NotFound/NotFound";
@@ -29,6 +29,8 @@ function App() {
   const [moreFilmsNumber, setMoreFilmsNumber] = useState(0);
   const [isError, setIsError] = useState(false);
 
+  const [films, setFilms] = useState([]);
+
   function setNumberOfMoviesFromSizeOfScreen() {
     const moreFilms = localStorage.getItem("moreFilmsNumber");
 
@@ -36,9 +38,12 @@ function App() {
     if (width < 640) {
       setNumberOfMovies(5 + moreFilms * 2);
       localStorage.setItem("numberOfMovies", 5 + moreFilms * 2);
-    } else if (width < 1080) {
+    } else if (width < 1093) {
       setNumberOfMovies(8 + moreFilms * 2);
       localStorage.setItem("numberOfMovies", 8 + moreFilms * 2);
+    } else if (width < 1280) {
+      setNumberOfMovies(9 + moreFilms * 3);
+      localStorage.setItem("numberOfMovies", 9 + moreFilms * 3);
     } else {
       setNumberOfMovies(12 + moreFilms * 4);
       localStorage.setItem("numberOfMovies", 12 + moreFilms * 4);
@@ -47,7 +52,7 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("resize", setNumberOfMoviesFromSizeOfScreen);
-    
+
     return () => {
       window.removeEventListener("resize", setNumberOfMoviesFromSizeOfScreen);
     };
@@ -55,39 +60,48 @@ function App() {
 
   const history = useHistory();
 
-  useEffect(() => {
+  function getMoviesInitial() {
     setIsLoading(true);
     if (loggedIn) {
-      moviesApi
-        .getMovies()
-        .then((res) => {
-          if (res) {
-            localStorage.setItem("movies", JSON.stringify(res));
-            localStorage.setItem("foundFilms", JSON.stringify(res));
-            localStorage.setItem("moreFilmsNumber", 0);
-            localStorage.setItem("foundFilmsSaved", JSON.stringify(res));
-            localStorage.setItem("search", "");
-            localStorage.setItem("isShortMovies", "false");
+      if (localStorage.getItem("movies") == null) {
+        moviesApi
+          .getMovies()
+          .then((res) => {
+            if (res) {
+              localStorage.setItem("movies", JSON.stringify(res));
+              setFilms(res);
+              localStorage.setItem("foundFilms", JSON.stringify(res));
+              localStorage.setItem("moreFilmsNumber", 0);
+              localStorage.setItem("search", "");
+              localStorage.setItem("isShortMovies", "false");
 
-            setNumberOfMoviesFromSizeOfScreen();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+              setNumberOfMoviesFromSizeOfScreen();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        localStorage.setItem("moreFilmsNumber", 0);
+        localStorage.setItem("search", "");
+        localStorage.setItem("isShortMovies", "false");
+        setNumberOfMoviesFromSizeOfScreen();
+      }
     }
     setIsLoading(false);
-
-  }, [loggedIn]);
+  }
 
   useEffect(() => {
     if (loggedIn) {
+
       api
         .getSavedFilms()
         .then((res) => {
           if (res) {
             localStorage.setItem("savedFilms", JSON.stringify(res));
           }
+        }).then(() => {
+          getMoviesInitial();
         })
         .catch((err) => {
           console.log(err);
@@ -135,15 +149,13 @@ function App() {
           setLoggedIn(true);
         }
       })
-      .then(() => {
-        history.push("/movies");
-      })
       .catch((err) => {
         setIsLoading(false);
         setIsError(true);
       })
       .finally(() => {
         setIsLoading(false);
+        history.push("/movies");
       });
   }
 
@@ -224,21 +236,23 @@ function App() {
     if (jwt) {
       setLoggedIn(true);
     }
-  },[setLoggedIn]);
+  }, [setLoggedIn]);
 
   useEffect(() => {
     api.updateHeader();
-    api.getUserInfo().then((res) => {
-      if (res) {
-        setCurrentUser(res.data);
-      }
-    });
-  }, [])
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      api.getUserInfo().then((res) => {
+        if (res) {
+          setCurrentUser(res.data);
+        }
+      });
+    }
+  }, []);
 
   function onClosePopup() {
     setIsError(false);
   }
-
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -253,18 +267,17 @@ function App() {
               exact
               path="/movies"
               component={Movies}
-              onlySaved={false}
               onLike={handleLikeClick}
               onDisLike={handleDeleteMovie}
               numberOfMovies={numberOfMovies}
               loggedIn={loggedIn}
               moreFilms={moreFilms}
+              movies={films}
             />
             <ProtectedRoute
               exact
               path="/saved-movies"
-              component={SavedMovies}
-              onlySaved={true}
+              component={MoviesSaved}
               onLike={handleLikeClick}
               onDisLike={handleDeleteMovie}
               numberOfMovies={numberOfMovies}

@@ -70,6 +70,61 @@
   
 }
 
+
+/* .header__profile-icon{
+  width: 12px;
+  height: 30px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.header__button-user{
+  display: flex;
+  align-items: center;
+  border:2px solid #F5F5F5;
+  border-radius: 20px;
+  padding: 0 14px;
+}
+*/
+.header__button-film{
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+} 
+.header__menu{
+  display: flex;
+  align-items: center;
+}
+
+.header__button-user_position_start {
+  display: flex;
+  align-items: center;
+  border:2px solid #F5F5F5;
+  border-radius: 20px;
+  padding: 0 14px;
+}
+
+.header__profile-icon_position_start {
+  width: 12px;
+  height: 30px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  margin: 0;
+  margin-right: 8px;
+}
+
+
+
+.header__button_position_start{
+  display: none;
+}
+
 @media (max-width: 1280px) {
   .header__logo {
     margin-left: 30px;
