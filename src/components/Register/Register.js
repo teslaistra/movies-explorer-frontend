@@ -66,7 +66,7 @@ function Register({ handleRegister }) {
   }
 
   function validateName(name) {
-    const re = /^[a-zA-Zа-яА-ЯёЁ]+$/;
+    const re = /^[a-zA-Zа-яА-ЯёЁ\s]+$/;
     return re.test(name);
   }
 

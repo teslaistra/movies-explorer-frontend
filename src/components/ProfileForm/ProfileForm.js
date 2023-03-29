@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./ProfileForm.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
@@ -13,18 +13,30 @@ function ProfileForm({ onEditProfile, handleSignout }) {
     email: "",
   });
 
+  const [data, setData] = React.useState({ name: currentUser.name, email: currentUser.email });
+
   const [isSuccess, setIsSuccess] = React.useState(false);
 
   React.useEffect(() => {
     setName(currentUser.name);
     setEmail(currentUser.email);
 
+    setData({ ...data, name: currentUser.name });
+    setData({ ...data, email: currentUser.email });
+
     setIsDisabled(true);
   }, [currentUser]);
 
+  useEffect(() => {
+    console.log('___')
+    if (data.email === currentUser.email || data.name === currentUser.name) {
+      setIsDisabled(true);
+    }
+  }, [data]);
+
   function handleChangeName(e) {
+    setData({ ...data, name: e.target.value });
     if (validateName(e.target.value)) {
-      setIsDisabled(false);
       setErrors({ ...errors, name: "" });
     } else {
       setIsDisabled(true);
@@ -35,8 +47,8 @@ function ProfileForm({ onEditProfile, handleSignout }) {
   }
 
   function handleChangeEmail(e) {
+    setData({ ...data, email: e.target.value });
     if (validateEmail(e.target.value)) {
-      setIsDisabled(false);
       setErrors({ ...errors, email: "" });
     } else {
       setIsDisabled(true);
@@ -57,21 +69,39 @@ function ProfileForm({ onEditProfile, handleSignout }) {
   }
 
   function validateEmail(email) {
-    if (email === "") {
-      return true;
-    }
     const re = /\S+@\S+\.\S+/;
 
     return re.test(email);
   }
 
   function validateName(name) {
-    if (name === "") {
-      return true;
-    }
-    const re = /^[a-zA-Zа-яА-Я]+$/;
+    const re = /^[a-zA-Zа-яА-ЯёЁ\s]+$/;
     return re.test(name);
   }
+
+  React.useEffect(() => {
+    console.log("errors", errors);
+    console.log("data", data);
+    if (errors.name !== "" || errors.email !== "") {
+      setIsDisabled(true);
+      console.log("1");
+    } else if (data.name === "" || data.email === "") {
+      console.log("data.name", data.name);
+      console.log("data.email", data.email);
+
+      setIsDisabled(true);
+      console.log("2");
+    } else {
+      setIsDisabled(false);
+      console.log("3");
+    }
+    if (data.email === currentUser.email && data.name === currentUser.name) {
+      setIsDisabled(true);
+      console.log("++++");
+      console.log(data.email , currentUser.email)
+      console.log(data.name , currentUser.name)
+    }
+  }, [errors]);
 
   return (
     <div className="profile-form">
