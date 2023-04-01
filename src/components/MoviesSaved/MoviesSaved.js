@@ -15,8 +15,8 @@ function MoviesSaved({ onLike, onDisLike, movies, savedMovies }) {
   const [savedMoviesSearch, setSavedMoviesSearch] = React.useState([]);
 
   useEffect(() => {
-    setIsShortMovies(JSON.parse(localStorage.getItem("isShortMovies")));
-    setSearch(localStorage.getItem("search"));
+    setIsShortMovies(JSON.parse(localStorage.getItem("isShortMoviesSaved")));
+    setSearch(localStorage.getItem("searchSaved"));
   }, []);
 
   useEffect(() => {
@@ -48,6 +48,18 @@ function MoviesSaved({ onLike, onDisLike, movies, savedMovies }) {
         (movie) => !isShortMovies || movie.duration <= SHORT_MOVIE_DURATION
       )
     );
+
+    if (search !== "") {
+      setCards(
+        saved.filter(
+          (movie) =>
+            (movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
+
+              movie.nameEN.toLowerCase().includes(search.toLowerCase())) &&
+            (!isShortMovies || movie.duration <= SHORT_MOVIE_DURATION)
+        )
+      );
+    }
   }, [setIsShortMovies]);
 
   function handleSearch() {
@@ -58,9 +70,10 @@ function MoviesSaved({ onLike, onDisLike, movies, savedMovies }) {
         }
       );
     });
+    
 
-    const isShortMovies = JSON.parse(localStorage.getItem("isShortMovies"));
-    const search = localStorage.getItem("search");
+    const isShortMovies = JSON.parse(localStorage.getItem("isShortMoviesSaved"));
+    const search = localStorage.getItem("searchSaved");
 
     let foundFilms = [];
 
@@ -87,7 +100,7 @@ function MoviesSaved({ onLike, onDisLike, movies, savedMovies }) {
     <div className="movies">
       <div className="movies__container">
         <Header loggedIn={true} />
-        <SearchForm handleSearch={handleSearch} />
+        <SearchForm handleSearch={handleSearch} searchItemPostfix="Saved" />
         <MoviesCardList
           cards={cards}
           numberOfMovies={cards.length}

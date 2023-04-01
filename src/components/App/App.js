@@ -123,6 +123,8 @@ function App() {
               localStorage.setItem("moreFilmsNumber", 0);
               localStorage.setItem("search", "");
               localStorage.setItem("isShortMovies", "false");
+              localStorage.setItem("isShortMoviesSaved", "false");
+              localStorage.setItem("searchSaved", "");
               setFilms(res);
               console.log(res);
               setNumberOfMoviesFromSizeOfScreen();
@@ -203,6 +205,9 @@ function App() {
     localStorage.removeItem("savedFilms");
     localStorage.removeItem("isShortMovies");
     localStorage.removeItem("search");
+    localStorage.removeItem("isShortMoviesSaved");
+    localStorage.removeItem("searchSaved");
+    localStorage.removeItem("foundFilms");
 
     history.push("/");
   }
@@ -237,8 +242,10 @@ function App() {
             "savedFilms",
             JSON.stringify([...JSON.parse(savedMovies), res])
           );
+          setSavedFilms([...savedFilms, res]);
         } else {
           localStorage.setItem("savedFilms", JSON.stringify([res]));
+          setSavedFilms([res]);
         }
       }
     });
@@ -255,6 +262,10 @@ function App() {
             JSON.stringify(
               JSON.parse(savedMovies).filter((movie) => movie._id !== id)
             )
+          );
+
+          setSavedFilms( 
+            savedFilms.filter((movie) => movie._id !== id)
           );
         }
       }

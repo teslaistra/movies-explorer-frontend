@@ -1,25 +1,28 @@
 import React from "react";
 import "./Filter.css";
 
-function Filter({ title, state, handleSearch }) {
+function Filter({ title, state, handleSearch, postfix = "" }) {
+
+  const isShortMoviesItem = "isShortMovies" + postfix;
+
   const [isFilterClicked, setisFilterClicked] = React.useState(
-    localStorage.getItem("isShortMovies") === "true" ? true : false
+    localStorage.getItem(isShortMoviesItem) === "true" ? true : false
   );
 
   function FilterClick() {
-    const isShortMovies = localStorage.getItem("isShortMovies");
+    const isShortMovies = localStorage.getItem(isShortMoviesItem);
     if (isShortMovies === "true") {
-      localStorage.setItem("isShortMovies", false);
+      localStorage.setItem(isShortMoviesItem, false);
     } else {
-      localStorage.setItem("isShortMovies", true);
+      localStorage.setItem(isShortMoviesItem, true);
     }
     setisFilterClicked(!isFilterClicked);
     handleSearch();
   }
 
   React.useEffect(() => {
-    localStorage.setItem("isShortMovies", isFilterClicked);
-  }, [isFilterClicked]);
+    setisFilterClicked(localStorage.getItem(isShortMoviesItem) === "true" ? true : false);
+  }, []);
 
   return (
     <div className="filter">

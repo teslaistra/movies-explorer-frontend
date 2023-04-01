@@ -45,6 +45,7 @@ function Movies({
       );
     }
     setCards(foundFilms.slice(0, numberOfMovies));
+    localStorage.setItem("foundFilms", JSON.stringify(foundFilms));
 
     setFilteredMovies(foundFilms);
   }
@@ -68,7 +69,7 @@ function Movies({
     <div className="movies">
       <div className="movies__container">
         <Header loggedIn={true} />
-        <SearchForm handleSearch={handleSearch} />
+        <SearchForm handleSearch={handleSearch} searchItemPostfix="" />
         <MoviesCardList
           cards={cards}
           numberOfMovies={numberOfMovies}

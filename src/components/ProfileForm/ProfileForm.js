@@ -28,7 +28,6 @@ function ProfileForm({ onEditProfile, handleSignout }) {
   }, [currentUser]);
 
   useEffect(() => {
-    console.log('___')
     if (data.email === currentUser.email || data.name === currentUser.name) {
       setIsDisabled(true);
     }
@@ -80,26 +79,15 @@ function ProfileForm({ onEditProfile, handleSignout }) {
   }
 
   React.useEffect(() => {
-    console.log("errors", errors);
-    console.log("data", data);
     if (errors.name !== "" || errors.email !== "") {
       setIsDisabled(true);
-      console.log("1");
     } else if (data.name === "" || data.email === "") {
-      console.log("data.name", data.name);
-      console.log("data.email", data.email);
-
       setIsDisabled(true);
-      console.log("2");
     } else {
       setIsDisabled(false);
-      console.log("3");
     }
     if (data.email === currentUser.email && data.name === currentUser.name) {
       setIsDisabled(true);
-      console.log("++++");
-      console.log(data.email , currentUser.email)
-      console.log(data.name , currentUser.name)
     }
   }, [errors]);
 

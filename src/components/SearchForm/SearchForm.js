@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./SearchForm.css";
 import icon from "../../images/icon-search-white.svg";
 import Filter from "../Filter/Filter";
 
-function SearchForm({ handleSearch }) {
+function SearchForm({ handleSearch, searchItemPostfix="" }) {
   const [search, setSearch] = React.useState("");
+
+  const searchItem = "search" + searchItemPostfix;
+  const isShortMoviesItem = "isShortMovies" + searchItemPostfix;
 
   function handleFieldChange(e) {
     setSearch(e.target.value);
@@ -12,21 +15,34 @@ function SearchForm({ handleSearch }) {
 
   function handleSubmit(e) {
     if (search == null) {
-      localStorage.setItem("search", "");
-    } else {
-      localStorage.setItem("search", search);
+      localStorage.setItem(searchItem, "");
+    }//  else if (searchItemPostfix === "Saved"){
+    //   localStorage.setItem(searchItem, "");
+    // } 
+    else {
+      localStorage.setItem(searchItem, search);
     }
     e.preventDefault();
     handleSearch();
   }
 
   React.useEffect(() => {
-    const search = localStorage.getItem("search");
-    setSearch(search);
+    const searchSt = localStorage.getItem(searchItem);
+    if (searchItemPostfix === "Saved") {
+      setSearch("");
+      localStorage.setItem(searchItem, "");
+      localStorage.setItem(isShortMoviesItem, false);
+    } else {
+    setSearch(searchSt);
+    }
   }, []);
 
-  const isShortMovies = localStorage.getItem("isShortMovies");
-
+  const [isShortMovies, setIsShortMovies] = React.useState(false);
+  
+  useEffect(() => {
+    setIsShortMovies(localStorage.getItem(isShortMoviesItem) === "true" ? true : false);
+  }, []);
+  
   return (
     <section className="search-form">
       <div className="search-form__outer">
@@ -39,7 +55,7 @@ function SearchForm({ handleSearch }) {
               type="text"
               placeholder="Фильм"
               onChange={handleFieldChange}
-              value={search}
+              value={ search}
             />
             <button type="submit" className="search-form__button">
               <img
@@ -54,6 +70,7 @@ function SearchForm({ handleSearch }) {
             title={"Короткометражки"}
             state={isShortMovies}
             handleSearch={handleSearch}
+            postfix={searchItemPostfix}
           />
         </div>
         <div className="search-form__separator-orientation-horizontal"></div>
